@@ -1,0 +1,8 @@
+/* This file is a reference — the actual CSS is inlined into each HTML page */
+PAGES:
+- index.html       (Home)
+- about.html       (About Me)
+- achievements.html (Skills & Achievements)
+- semester1.html   (Semester 1 Projects)
+- semester2.html   (Semester 2 Projects)
+- reflection.html  (Reflection)

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex Ryzen | Skills & Achievements</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--neon-cyan:#00f5ff;--neon-purple:#bf00ff;--neon-green:#39ff14;--neon-orange:#ff6b00;--dark-bg:#050510;--dark-card:#0a0a1f;--dark-card2:#0d0d25;--text-primary:#e8e8ff;--text-secondary:#8888bb}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--dark-bg);color:var(--text-primary);font-family:'Rajdhani',sans-serif;font-size:17px;line-height:1.7;overflow-x:hidden;cursor:none}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.15) 2px,rgba(0,0,0,0.15) 4px);pointer-events:none;z-index:1}
+.cursor{width:12px;height:12px;background:var(--neon-cyan);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 12px var(--neon-cyan);transition:width .2s,height .2s}
+.cursor-ring{width:36px;height:36px;border:1px solid rgba(0,245,255,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,5,16,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,245,255,0.15);padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:var(--neon-cyan);text-decoration:none;letter-spacing:2px;text-shadow:0 0 20px var(--neon-cyan)}
+.nav-links{display:flex;gap:0;list-style:none}
+.nav-links a{font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:var(--text-secondary);text-decoration:none;letter-spacing:2px;text-transform:uppercase;padding:0 1.1rem;height:64px;display:flex;align-items:center;border-right:1px solid rgba(0,245,255,0.06);transition:color .2s,background .2s;position:relative}
+.nav-links a:first-child{border-left:1px solid rgba(0,245,255,0.06)}
+.nav-links a:hover,.nav-links a.active{color:var(--neon-cyan);background:rgba(0,245,255,0.04)}
+.nav-links a.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--neon-cyan);box-shadow:0 0 10px var(--neon-cyan)}
+canvas#particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+#loader{position:fixed;inset:0;background:var(--dark-bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;transition:opacity .5s}
+#loader.hidden{opacity:0;pointer-events:none}
+.loader-logo{font-family:'Orbitron',monospace;font-size:2.5rem;font-weight:900;color:var(--neon-cyan);text-shadow:0 0 40px var(--neon-cyan)}
+.loader-text{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--neon-cyan);letter-spacing:4px}
+.loader-bar-wrap{width:280px;height:2px;background:rgba(0,245,255,0.1)}
+.loader-bar{height:100%;background:var(--neon-cyan);box-shadow:0 0 10px var(--neon-cyan);animation:load 1.6s ease-in-out forwards;width:0%}
+main{position:relative;z-index:2;padding-top:64px}
+.page-hero{padding:4rem 6% 2rem;border-bottom:1px solid rgba(0,245,255,0.08)}
+.page-tag{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--neon-cyan);letter-spacing:4px;text-transform:uppercase;display:block;margin-bottom:.6rem;opacity:0;animation:fadeUp .5s .2s forwards}
+.page-title{font-family:'Orbitron',monospace;font-size:clamp(2.5rem,6vw,5rem);font-weight:900;color:var(--text-primary);opacity:0;animation:fadeUp .5s .4s forwards;line-height:1.1}
+.page-title span{color:var(--neon-orange);text-shadow:0 0 30px var(--neon-orange)}
+.page-sub{font-size:1rem;color:var(--text-secondary);margin-top:1rem;max-width:600px;opacity:0;animation:fadeUp .5s .6s forwards}
+.content{padding:3rem 6%;max-width:1200px}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.sec-tag{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--neon-cyan);letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:.4rem}
+.sec-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,3vw,2rem);font-weight:900;color:var(--text-primary);margin-bottom:2rem;position:relative;display:inline-block}
+.sec-title::after{content:'';position:absolute;bottom:-6px;left:0;width:50%;height:2px;background:linear-gradient(90deg,var(--neon-cyan),transparent);box-shadow:0 0 8px var(--neon-cyan)}
+/* Skills */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:3rem}
+.skill-card{background:var(--dark-card);border:1px solid rgba(0,245,255,0.1);padding:2rem;position:relative;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));transition:border-color .3s}
+.skill-card::before{content:'';position:absolute;top:0;right:16px;width:0;height:0;border-style:solid;border-width:0 16px 16px 0;border-color:transparent rgba(0,245,255,.2) transparent transparent}
+.skill-card:hover{border-color:rgba(0,245,255,.35)}
+.skill-card-title{font-family:'Orbitron',monospace;font-size:.8rem;color:var(--neon-purple);letter-spacing:2px;margin-bottom:1.5rem;text-shadow:0 0 8px rgba(191,0,255,.4)}
+.skill-item{margin-bottom:1.1rem}
+.skill-header{display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:5px}
+.skill-header span:first-child{color:var(--text-primary)}
+.skill-header span:last-child{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--neon-cyan)}
+.skill-bar{height:3px;background:rgba(255,255,255,0.06);overflow:hidden}
+.skill-bar-fill{height:100%;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple));box-shadow:0 0 8px var(--neon-cyan);width:0%;transition:width 1.3s ease-out}
+.note{font-size:.72rem;color:rgba(255,255,255,.2);font-family:'Share Tech Mono',monospace;margin-top:1rem}
+/* Badge clusters */
+.badge-section{margin-bottom:3rem}
+.badge-cluster{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1rem}
+.badge{font-family:'Share Tech Mono',monospace;font-size:.68rem;padding:.35rem .85rem;border:1px solid rgba(0,245,255,.25);color:var(--neon-cyan);background:rgba(0,245,255,.04);letter-spacing:1px;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:background .2s,border-color .2s}
+.badge:hover{background:rgba(0,245,255,.12);border-color:var(--neon-cyan)}
+.badge-purple{border-color:rgba(191,0,255,.25);color:var(--neon-purple);background:rgba(191,0,255,.04)}
+.badge-purple:hover{background:rgba(191,0,255,.12);border-color:var(--neon-purple)}
+.badge-orange{border-color:rgba(255,107,0,.25);color:var(--neon-orange);background:rgba(255,107,0,.04)}
+.badge-orange:hover{background:rgba(255,107,0,.12);border-color:var(--neon-orange)}
+/* Achievements */
+.achievements-list{display:grid;gap:1rem}
+.achievement-item{display:flex;align-items:flex-start;gap:1.5rem;padding:1.3rem 1.5rem;background:var(--dark-card);border:1px solid rgba(255,107,0,0.15);transition:border-color .3s,box-shadow .3s}
+.achievement-item:hover{border-color:rgba(255,107,0,.4);box-shadow:0 0 20px rgba(255,107,0,.06)}
+.ach-icon{font-size:1.5rem;flex-shrink:0;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(255,107,0,.07);border:1px solid rgba(255,107,0,.2)}
+.ach-text h4{font-family:'Orbitron',monospace;font-size:.84rem;color:var(--neon-orange);margin-bottom:.3rem;letter-spacing:1px}
+.ach-text p{font-size:.88rem;color:var(--text-secondary)}
+footer{position:relative;z-index:2;text-align:center;padding:2.5rem 2rem 3.5rem;border-top:1px solid rgba(0,245,255,0.08)}
+footer p{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--text-secondary);letter-spacing:2px;margin-top:.4rem}
+.menu-btn{display:none;background:transparent;border:1px solid rgba(0,245,255,.3);color:var(--neon-cyan);font-family:'Share Tech Mono',monospace;font-size:.72rem;padding:.4rem .8rem;cursor:none;letter-spacing:2px}
+@media(max-width:768px){.nav-links{display:none}.menu-btn{display:block}body{cursor:auto}.cursor,.cursor-ring{display:none}.content{padding:2rem 1rem}.page-hero{padding:2.5rem 1rem 1.5rem}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes load{to{width:100%}}
+</style>
+</head>
+<body>
+<div id="loader"><div class="loader-logo">AR</div><div class="loader-text">LOADING SKILL TREE...</div><div class="loader-bar-wrap"><div class="loader-bar"></div></div></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<canvas id="particles"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-logo">AR://PORTFOLIO</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="achievements.html" class="active">Skills</a></li>
+    <li><a href="semester1.html">Sem.01</a></li>
+    <li><a href="semester2.html">Sem.02</a></li>
+    <li><a href="reflection.html">Reflection</a></li>
+  </ul>
+  <button class="menu-btn" onclick="toggleNav()">[ MENU ]</button>
+</nav>
+
+<main>
+  <div class="page-hero">
+    <span class="page-tag">// SKILL TREE & ACHIEVEMENTS //</span>
+    <h1 class="page-title">Skills &amp; <span>Achievements</span></h1>
+    <p class="page-sub">A record of technical and soft skills developed through academic study, projects, and self-learning — plus milestones unlocked along the way.</p>
+  </div>
+
+  <div class="content">
+    <!-- Technical Skills -->
+    <div class="reveal">
+      <span class="sec-tag">// TECHNICAL SKILL TREE</span>
+      <h2 class="sec-title">Technical Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-card-title">PROGRAMMING</div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Python</span><span data-pct="70">70%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="70%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>HTML / CSS</span><span>65%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="65%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>JavaScript</span><span>50%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="50%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>[ Add Language ]</span><span>??%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="40%"></div></div>
+          </div>
+          <p class="note">// Adjust percentages to match your actual level</p>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-title">CS FUNDAMENTALS</div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Algorithms</span><span>55%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="55%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Data Structures</span><span>55%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="55%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Databases / SQL</span><span>50%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="50%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Networking Basics</span><span>45%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="45%"></div></div>
+          </div>
+          <p class="note">// Replace with your actual modules</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Soft Skills -->
+    <div class="reveal">
+      <span class="sec-tag">// SOFT SKILL TREE</span>
+      <h2 class="sec-title">Soft Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-card-title">COMMUNICATION</div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Written Communication</span><span>75%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="75%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Verbal / Presentation</span><span>65%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="65%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Active Listening</span><span>70%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="70%"></div></div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-title">INTERPERSONAL</div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Teamwork</span><span>80%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="80%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Problem Solving</span><span>72%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="72%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header"><span>Time Management</span><span>60%</span></div>
+            <div class="skill-bar"><div class="skill-bar-fill" data-width="60%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tools -->
+    <div class="badge-section reveal">
+      <span class="sec-tag">// INVENTORY</span>
+      <h2 class="sec-title">Tools & Platforms</h2>
+      <div class="badge-cluster">
+        <span class="badge">VS Code</span>
+        <span class="badge">Git</span>
+        <span class="badge">GitHub</span>
+        <span class="badge">GitHub Pages</span>
+        <span class="badge">MS Office</span>
+        <span class="badge">Google Workspace</span>
+        <span class="badge-purple">Figma</span>
+        <span class="badge-purple">[ Add Tool ]</span>
+        <span class="badge-orange">[ Add Platform ]</span>
+      </div>
+    </div>
+
+    <!-- Academic Achievements -->
+    <div class="reveal">
+      <span class="sec-tag">// ACHIEVEMENTS UNLOCKED</span>
+      <h2 class="sec-title">Academic Achievements</h2>
+      <div class="achievements-list">
+        <div class="achievement-item">
+          <div class="ach-icon">🎓</div>
+          <div class="ach-text">
+            <h4>ENROLLED — BSc (Hons) COMPUTER SCIENCE</h4>
+            <p>Successfully commenced Year 1 at [ Your University Name ]. Committed to a 3-year journey towards a Computer Science degree.</p>
+          </div>
+        </div>
+        <div class="achievement-item">
+          <div class="ach-icon">📜</div>
+          <div class="ach-text">
+            <h4>[ CERTIFICATE OR AWARD ]</h4>
+            <p>Placeholder — add any certificates, external courses, or online learning badges you have earned (e.g. Coursera, freeCodeCamp, Google certifications).</p>
+          </div>
+        </div>
+        <div class="achievement-item">
+          <div class="ach-icon">🏆</div>
+          <div class="ach-text">
+            <h4>[ ACADEMIC RECOGNITION ]</h4>
+            <p>Placeholder — e.g. highest grade in a module, Dean's List, competition placement, or special commendation from a lecturer.</p>
+          </div>
+        </div>
+        <div class="achievement-item">
+          <div class="ach-icon">📊</div>
+          <div class="ach-text">
+            <h4>[ TRANSCRIPT / ACADEMIC RECORD ]</h4>
+            <p>Placeholder — reference your academic transcript here. You can note your GPA / overall performance or link to a PDF of your transcript.</p>
+          </div>
+        </div>
+        <div class="achievement-item">
+          <div class="ach-icon">🔗</div>
+          <div class="ach-text">
+            <h4>E-PORTFOLIO — BUILT & DEPLOYED</h4>
+            <p>Successfully designed and deployed this interactive E-Portfolio using HTML, CSS, and JavaScript — hosted on GitHub Pages. Demonstrates technical proficiency and personal branding.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2026 ALEX RYZEN — BSc (Hons) Computer Science</p>
+  <p>// SKILL TREE UPDATED //</p>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>

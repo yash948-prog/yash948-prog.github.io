@@ -1,26 +1,202 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Reflection</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex Ryzen | Reflection</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--neon-cyan:#00f5ff;--neon-purple:#bf00ff;--neon-green:#39ff14;--neon-orange:#ff6b00;--dark-bg:#050510;--dark-card:#0a0a1f;--text-primary:#e8e8ff;--text-secondary:#8888bb}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--dark-bg);color:var(--text-primary);font-family:'Rajdhani',sans-serif;font-size:17px;line-height:1.7;overflow-x:hidden;cursor:none}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.15) 2px,rgba(0,0,0,0.15) 4px);pointer-events:none;z-index:1}
+.cursor{width:12px;height:12px;background:var(--neon-cyan);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 12px var(--neon-cyan);transition:width .2s,height .2s}
+.cursor-ring{width:36px;height:36px;border:1px solid rgba(0,245,255,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,5,16,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,245,255,0.15);padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:var(--neon-cyan);text-decoration:none;letter-spacing:2px;text-shadow:0 0 20px var(--neon-cyan)}
+.nav-links{display:flex;gap:0;list-style:none}
+.nav-links a{font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:var(--text-secondary);text-decoration:none;letter-spacing:2px;text-transform:uppercase;padding:0 1.1rem;height:64px;display:flex;align-items:center;border-right:1px solid rgba(0,245,255,0.06);transition:color .2s,background .2s;position:relative}
+.nav-links a:first-child{border-left:1px solid rgba(0,245,255,0.06)}
+.nav-links a:hover,.nav-links a.active{color:var(--neon-cyan);background:rgba(0,245,255,0.04)}
+.nav-links a.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--neon-cyan);box-shadow:0 0 10px var(--neon-cyan)}
+canvas#particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+#loader{position:fixed;inset:0;background:var(--dark-bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;transition:opacity .5s}
+#loader.hidden{opacity:0;pointer-events:none}
+.loader-logo{font-family:'Orbitron',monospace;font-size:2.5rem;font-weight:900;color:var(--neon-cyan);text-shadow:0 0 40px var(--neon-cyan)}
+.loader-text{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--neon-cyan);letter-spacing:4px}
+.loader-bar-wrap{width:280px;height:2px;background:rgba(0,245,255,0.1)}
+.loader-bar{height:100%;background:var(--neon-cyan);box-shadow:0 0 10px var(--neon-cyan);animation:load 1.6s ease-in-out forwards;width:0%}
+main{position:relative;z-index:2;padding-top:64px}
+.page-hero{padding:4rem 6% 2rem;border-bottom:1px solid rgba(0,245,255,0.08)}
+.page-tag{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--neon-cyan);letter-spacing:4px;text-transform:uppercase;display:block;margin-bottom:.6rem;opacity:0;animation:fadeUp .5s .2s forwards}
+.page-title{font-family:'Orbitron',monospace;font-size:clamp(2.5rem,6vw,5rem);font-weight:900;color:var(--text-primary);opacity:0;animation:fadeUp .5s .4s forwards;line-height:1.1}
+.page-title span{color:var(--neon-cyan);text-shadow:0 0 30px var(--neon-cyan)}
+.page-sub{font-size:1rem;color:var(--text-secondary);margin-top:1rem;max-width:600px;opacity:0;animation:fadeUp .5s .6s forwards}
+.content{padding:3rem 6%;max-width:900px}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+/* Reflection blocks */
+.reflection-block{background:var(--dark-card);border:1px solid rgba(191,0,255,0.18);padding:2.5rem;position:relative;margin-bottom:2rem}
+.reflection-block::before{content:attr(data-label);font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--neon-purple);letter-spacing:3px;position:absolute;top:-10px;left:20px;background:var(--dark-bg);padding:0 10px}
+.reflection-block h3{font-family:'Orbitron',monospace;font-size:.95rem;color:var(--neon-cyan);letter-spacing:2px;margin-bottom:1.2rem}
+.reflection-block p{color:var(--text-secondary);margin-bottom:1.1rem;line-height:1.85}
+.reflection-block p:last-child{margin-bottom:0}
+.highlight-quote{border-left:2px solid var(--neon-purple);padding:1rem 1.5rem;margin:1.5rem 0;background:rgba(191,0,255,.04)}
+.highlight-quote p{color:var(--text-primary) !important;font-size:1.05rem;font-style:italic}
+.highlight-quote cite{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.3);display:block;margin-top:.5rem;font-style:normal}
+/* Timeline */
+.timeline{position:relative;padding-left:2rem;margin:1rem 0}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--neon-purple),transparent)}
+.timeline-item{position:relative;margin-bottom:1.8rem;padding-left:1rem}
+.timeline-item::before{content:'';position:absolute;left:-1.6rem;top:.5rem;width:8px;height:8px;background:var(--neon-purple);box-shadow:0 0 10px var(--neon-purple)}
+.timeline-item h4{font-family:'Orbitron',monospace;font-size:.82rem;color:var(--neon-purple);margin-bottom:.4rem;letter-spacing:1px}
+.timeline-item p{font-size:.9rem;color:var(--text-secondary)}
+/* Progress checklist */
+.checklist{list-style:none;margin:1rem 0}
+.checklist li{display:flex;align-items:flex-start;gap:1rem;padding:.65rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.92rem;color:var(--text-secondary)}
+.check-icon{flex-shrink:0;width:20px;height:20px;border:1px solid var(--neon-cyan);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--neon-cyan)}
+.check-icon.done{background:rgba(0,245,255,.08)}
+/* CTA */
+.cta-block{text-align:center;padding:3rem 2rem;border:1px solid rgba(0,245,255,.15);background:var(--dark-card);margin-top:2rem}
+.cta-block h3{font-family:'Orbitron',monospace;font-size:1.2rem;color:var(--neon-cyan);margin-bottom:1rem;letter-spacing:2px}
+.cta-block p{color:var(--text-secondary);margin-bottom:1.5rem}
+.btn{font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:.85rem 2rem;background:transparent;cursor:none;text-decoration:none;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);display:inline-block;transition:color .3s,box-shadow .3s;border:1px solid var(--neon-cyan);color:var(--neon-cyan);position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;inset:0;background:var(--neon-cyan);transform:scaleX(0);transform-origin:left;transition:transform .3s;z-index:-1}
+.btn:hover{color:var(--dark-bg);box-shadow:0 0 30px rgba(0,245,255,.5)}
+.btn:hover::before{transform:scaleX(1)}
+.placeholder-note{font-size:.75rem;color:rgba(255,255,255,.18);font-style:italic;margin-top:.5rem;font-family:'Share Tech Mono',monospace}
+footer{position:relative;z-index:2;text-align:center;padding:2.5rem 2rem 3.5rem;border-top:1px solid rgba(0,245,255,0.08)}
+footer p{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--text-secondary);letter-spacing:2px;margin-top:.4rem}
+.menu-btn{display:none;background:transparent;border:1px solid rgba(0,245,255,.3);color:var(--neon-cyan);font-family:'Share Tech Mono',monospace;font-size:.72rem;padding:.4rem .8rem;cursor:none;letter-spacing:2px}
+.page-nav{display:flex;justify-content:space-between;align-items:center;padding:2rem 6%;border-top:1px solid rgba(0,245,255,.06);position:relative;z-index:2}
+.page-nav-link{font-family:'Orbitron',monospace;font-size:.72rem;color:var(--text-secondary);text-decoration:none;letter-spacing:2px;display:flex;align-items:center;gap:.6rem;transition:color .2s}
+.page-nav-link:hover{color:var(--neon-cyan)}
+@media(max-width:768px){.nav-links{display:none}.menu-btn{display:block}body{cursor:auto}.cursor,.cursor-ring{display:none}.content{padding:2rem 1rem}.page-hero{padding:2.5rem 1rem 1.5rem}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes load{to{width:100%}}
+</style>
 </head>
 <body>
+<div id="loader"><div class="loader-logo">AR</div><div class="loader-text">LOADING SAVE FILE...</div><div class="loader-bar-wrap"><div class="loader-bar"></div></div></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<canvas id="particles"></canvas>
 
 <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="skills.html">Skills</a>
-    <a href="projects1.html">Sem 1</a>
-    <a href="projects2.html">Sem 2</a>
-    <a href="reflection.html">Reflection</a>
+  <a href="index.html" class="nav-logo">AR://PORTFOLIO</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="achievements.html">Skills</a></li>
+    <li><a href="semester1.html">Sem.01</a></li>
+    <li><a href="semester2.html">Sem.02</a></li>
+    <li><a href="reflection.html" class="active">Reflection</a></li>
+  </ul>
+  <button class="menu-btn" onclick="toggleNav()">[ MENU ]</button>
 </nav>
 
-<div class="container">
-<div class="card">
-<h2>Reflection</h2>
-<p>This module helped me improve my communication, teamwork, and confidence. I learned how important communication is in IT and will continue improving my skills.</p>
-</div>
+<main>
+  <div class="page-hero">
+    <span class="page-tag">// SAVE FILE — MEMORY LOG //</span>
+    <h1 class="page-title"><span>Reflection</span></h1>
+    <p class="page-sub">A honest look back at the learning journey — the challenges, the breakthroughs, and what comes next.</p>
+  </div>
+
+  <div class="content">
+
+    <!-- Intro block -->
+    <div class="reflection-block reveal" data-label="// REFLECTION.LOG — ENTRY 001">
+      <h3>THE JOURNEY SO FAR</h3>
+      <p>Entering BSc (Hons) Computer Science felt like starting a new game on a difficulty I hadn't played before. The modules were unfamiliar, the expectations were higher than school, and the pace was relentless. But two semesters in, I can look back and see just how far I've travelled.</p>
+      <p>This reflection is my honest save file — recording what I've learned, where I've struggled, and what I need to keep working on.</p>
+      <p class="placeholder-note">// Personalise this with your real experience of starting university</p>
+
+      <div class="highlight-quote">
+        <p>"The biggest lesson I learned was that communication is just as critical to Computer Science as code. A solution nobody understands is no solution at all."</p>
+        <cite>— Replace this with your own insight or a quote that resonates with you</cite>
+      </div>
+    </div>
+
+    <!-- Challenges -->
+    <div class="reflection-block reveal" data-label="// CHALLENGES ENCOUNTERED">
+      <h3>CHALLENGES FACED</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <h4>ACADEMIC WRITING</h4>
+          <p>Transitioning from school-style essays to formal academic writing was harder than expected. Learning to cite properly, structure arguments, and maintain an objective tone took time and practice.</p>
+          <p class="placeholder-note">// Replace with a challenge you actually faced</p>
+        </div>
+        <div class="timeline-item">
+          <h4>TIME MANAGEMENT</h4>
+          <p>Balancing multiple deadlines across different modules while maintaining quality was a recurring challenge. I had to develop new systems to stay organised and avoid last-minute rushes.</p>
+          <p class="placeholder-note">// Replace or expand with your real experience</p>
+        </div>
+        <div class="timeline-item">
+          <h4>PUBLIC SPEAKING / PRESENTATIONS</h4>
+          <p>Presenting in front of peers and lecturers was outside my comfort zone. The interview role-play and class presentations pushed me to develop confidence I didn't know I had.</p>
+          <p class="placeholder-note">// Replace with what you genuinely found challenging</p>
+        </div>
+        <div class="timeline-item">
+          <h4>[ ADD YOUR CHALLENGE ]</h4>
+          <p>Placeholder — add any other challenge specific to your year, such as a difficult module, a group project conflict, or a personal obstacle you had to navigate.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills developed -->
+    <div class="reflection-block reveal" data-label="// SKILLS UNLOCKED">
+      <h3>SKILLS DEVELOPED</h3>
+      <p>Each activity and assignment this year contributed to a growing set of skills — both technical and interpersonal. Here's an honest assessment of where I've grown:</p>
+      <ul class="checklist">
+        <li><div class="check-icon done">✓</div><div><strong style="color:var(--text-primary)">Written Communication</strong> — Significantly improved through the research paper, synopsis, and business plan.</div></li>
+        <li><div class="check-icon done">✓</div><div><strong style="color:var(--text-primary)">Teamwork &amp; Collaboration</strong> — Built through the Scavenger Hunt and Team Building exercises, learning to work with different personalities.</div></li>
+        <li><div class="check-icon done">✓</div><div><strong style="color:var(--text-primary)">Professional Communication</strong> — Developed through the CRM role-play and interview simulation, gaining confidence in formal settings.</div></li>
+        <li><div class="check-icon done">✓</div><div><strong style="color:var(--text-primary)">Front-End Development</strong> — Built this entire portfolio from scratch, consolidating HTML, CSS, and JavaScript knowledge.</div></li>
+        <li><div class="check-icon">◻</div><div><strong style="color:var(--text-primary)">[ Add Skill ]</strong> — Placeholder for another skill you genuinely developed this year.</div></li>
+      </ul>
+      <p class="placeholder-note" style="margin-top:1rem">// Replace the checklist items with your real skill development</p>
+    </div>
+
+    <!-- Areas for improvement -->
+    <div class="reflection-block reveal" data-label="// AREAS FOR IMPROVEMENT">
+      <h3>WHERE I STILL NEED TO GROW</h3>
+      <p>Honest self-assessment means acknowledging what still needs work. I'm not where I want to be yet in the following areas:</p>
+      <p><strong style="color:var(--neon-cyan)">Technical Depth:</strong> My programming skills are foundational. I need to invest more time in building real projects outside of class to deepen my practical coding ability.</p>
+      <p><strong style="color:var(--neon-cyan)">Confidence in Presentations:</strong> While I've improved, I still feel nervous when presenting to a group. More practice and preparation will help me become more fluent and assured.</p>
+      <p><strong style="color:var(--neon-cyan)">[ Add Your Area ]:</strong> Placeholder — be specific and honest about something you know you need to improve. Markers appreciate genuine self-assessment over generic statements.</p>
+      <p class="placeholder-note">// This section should be genuinely your own — don't just copy these examples</p>
+    </div>
+
+    <!-- Applying the module -->
+    <div class="reflection-block reveal" data-label="// APPLYING THIS MODULE">
+      <h3>HOW I WILL USE THESE SKILLS</h3>
+      <p>The Communication and Business Skills for IT module has reshaped how I see my future career. At first, I questioned why a CS degree needed communication modules. Now I understand that technical skills alone are not enough — the ability to explain, collaborate, and present is what separates good developers from great ones.</p>
+      <p><strong style="color:var(--neon-cyan)">Personally:</strong> I'll continue building my online presence through this portfolio, contributing to open-source projects, and networking with peers and professionals.</p>
+      <p><strong style="color:var(--neon-cyan)">Professionally:</strong> In a future IT role, I'll apply the written and verbal communication skills developed here to write clear documentation, lead meetings, and communicate complex technical ideas to non-technical stakeholders.</p>
+      <p class="placeholder-note">// Replace with your genuine reflection on how this module matters to your future</p>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-block reveal">
+      <h3>GAME IN PROGRESS</h3>
+      <p>This isn't the end of the story — it's the end of Chapter 1. The portfolio will keep growing as new skills unlock and new challenges are conquered.</p>
+      <a href="index.html" class="btn">← BACK TO HOME</a>
+    </div>
+
+  </div>
+</main>
+
+<div class="page-nav">
+  <a href="semester2.html" class="page-nav-link">← Semester 02</a>
+  <a href="index.html" class="page-nav-link">Home →</a>
 </div>
 
+<footer>
+  <p>© 2026 ALEX RYZEN — BSc (Hons) Computer Science</p>
+  <p>// SAVE FILE WRITTEN — PROGRESS STORED //</p>
+</footer>
+
+<script src="shared.js"></script>
 </body>
 </html>
